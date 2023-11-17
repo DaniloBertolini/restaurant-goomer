@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  node:
+    image: node:16.14
+    container_name: goomer
+    tty: true
+    stdin_open: true
+    command: bash
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./:/app
+    depends_on:
+      - postgres
+    ports:
+      - 3001:3001
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: 'goomerdb'
+      PORT: 3001
+
+  postgres:
+    image: postgres
+    container_name: goomer_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432

@@ -6,6 +6,21 @@ const getAllRestaurants = async (_req, res) => {
   res.status(mapStatusHTTP(codeStatus)).json(restaurants);
 };
 
+const getRestaurantById = async (req, res) => {
+  const { id } = req.params;
+  const { codeStatus, data } = await restaurantService.getRestaurantById(id);
+  res.status(mapStatusHTTP(codeStatus)).json(data);
+};
+
+const registerNewRestaurant = async (req, res) => {
+  const { name, address, hours, image } = req.body;
+  const { codeStatus, data } = await restaurantService
+    .registerNewRestaurant({ name, address, hours, image });
+  res.status(mapStatusHTTP(codeStatus)).json(data);
+};
+
 module.exports = {
   getAllRestaurants,
+  getRestaurantById,
+  registerNewRestaurant,
 };

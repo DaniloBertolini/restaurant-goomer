@@ -19,17 +19,30 @@ const registerNewRestaurant = async (req, res) => {
   res.status(mapStatusHTTP(codeStatus)).json(data);
 };
 
-const AlterRestaurant = async (req, res) => {
+const alterRestaurant = async (req, res) => {
   const { id } = req.params;
   const { name, address, hours, image } = req.body;
   const { codeStatus, data } = await restaurantService
-    .AlterRestaurant({ id, name, address, hours, image });
+    .alterRestaurant({ id, name, address, hours, image });
   res.status(mapStatusHTTP(codeStatus)).json(data);
+};
+
+const deleteRestaurant = async (req, res) => {
+  const { id } = req.params;
+  const { codeStatus, data } = await restaurantService
+    .deleteRestaurant(id);
+
+  if (data) {
+    return res.status(mapStatusHTTP(codeStatus)).json(data);
+  }
+  
+  res.status(mapStatusHTTP(codeStatus)).end();
 };
 
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
   registerNewRestaurant,
-  AlterRestaurant,
+  alterRestaurant,
+  deleteRestaurant,
 };

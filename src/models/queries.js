@@ -11,4 +11,5 @@ module.exports = {
     hours = $3,
     image = $4
     WHERE id = $5`,
+  deleteRestaurantQuery: 'DELETE FROM restaurants WHERE id = $1',
 };

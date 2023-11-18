@@ -5,6 +5,7 @@ const {
   restaurantQuery,
   findByNameAndAddressQuery,
   updateRestaurantQuery,
+  deleteRestaurantQuery,
 } = require('./queries');
 
 const findAll = async () => {
@@ -32,10 +33,15 @@ const update = async (body) => {
   await pool.query(updateRestaurantQuery, [name, address, hours, image, id]);
 };
 
+const deleteRestaurant = async (id) => {
+  await pool.query(deleteRestaurantQuery, [id]);
+};
+
 module.exports = {
   findAll,
   findOne,
   findByNameAndAddress,
   register,
   update,
+  deleteRestaurant,
 };

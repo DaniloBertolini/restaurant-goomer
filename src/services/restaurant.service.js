@@ -10,6 +10,14 @@ const getAllRestaurants = async () => {
 
 const getRestaurantById = async (id) => {
   const { rows } = await restaurantModel.findOne(id);
+  if (rows.length === 0) {
+    return {
+      codeStatus: 'NOT_FOUND',
+      data: {
+        message: 'no restaurant found',
+      },
+    };
+  }
   return {
     codeStatus: 'SUCCESSFUL',
     data: rows,
@@ -38,7 +46,7 @@ const registerNewRestaurant = async (body) => {
   };
 };
 
-const AlterRestaurant = async (body) => {
+const alterRestaurant = async (body) => {
   const { name, address } = body;
   await restaurantModel.update(body);
 
@@ -50,9 +58,28 @@ const AlterRestaurant = async (body) => {
   };
 };
 
+const deleteRestaurant = async (id) => {
+  const { rows } = await restaurantModel.findOne(id);
+  if (rows.length === 0) {
+    return {
+      codeStatus: 'NOT_FOUND',
+      data: {
+        message: 'no restaurant found',
+      },
+    };
+  }
+
+  await restaurantModel.deleteRestaurant(id);
+
+  return {
+    codeStatus: 'NO_CONTENT',
+  };
+};
+
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
   registerNewRestaurant,
-  AlterRestaurant,
+  alterRestaurant,
+  deleteRestaurant,
 };

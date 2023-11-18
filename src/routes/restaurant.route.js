@@ -6,6 +6,7 @@ const validateRestaurant = require('../middlewares/validateRestaurant');
 route.get('/', restaurantController.getAllRestaurants);
 route.get('/:id', restaurantController.getRestaurantById);
 route.post('/', validateRestaurant, restaurantController.registerNewRestaurant);
-route.put('/:id', validateRestaurant, restaurantController.AlterRestaurant);
+route.put('/:id', validateRestaurant, restaurantController.alterRestaurant);
+route.delete('/:id', restaurantController.deleteRestaurant);
 
 module.exports = route;

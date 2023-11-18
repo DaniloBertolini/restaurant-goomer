@@ -1,5 +1,4 @@
 const { restaurantModel } = require('../models');
-const { findByNameAndAddress } = require('../models/restaurant.model');
 
 const getAllRestaurants = async () => {
   const { rows } = await restaurantModel.findAll();
@@ -20,7 +19,7 @@ const getRestaurantById = async (id) => {
 const registerNewRestaurant = async (body) => {
   const { name, address } = body;
 
-  const { rows: restaurant } = await findByNameAndAddress(name, address);
+  const { rows: restaurant } = await restaurantModel.findByNameAndAddress(name, address);
   if (restaurant.length > 0) {
     return {
       codeStatus: 'CONFLICT',
@@ -31,7 +30,19 @@ const registerNewRestaurant = async (body) => {
   }
 
   await restaurantModel.register(body);
-  const { rows } = await findByNameAndAddress(name, address);
+  const { rows } = await restaurantModel.findByNameAndAddress(name, address);
+
+  return {
+    codeStatus: 'SUCCESSFUL',
+    data: rows,
+  };
+};
+
+const AlterRestaurant = async (body) => {
+  const { name, address } = body;
+  await restaurantModel.update(body);
+
+  const { rows } = await restaurantModel.findByNameAndAddress(name, address);
 
   return {
     codeStatus: 'SUCCESSFUL',
@@ -43,4 +54,5 @@ module.exports = {
   getAllRestaurants,
   getRestaurantById,
   registerNewRestaurant,
+  AlterRestaurant,
 };

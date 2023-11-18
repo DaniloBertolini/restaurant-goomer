@@ -19,8 +19,17 @@ const registerNewRestaurant = async (req, res) => {
   res.status(mapStatusHTTP(codeStatus)).json(data);
 };
 
+const AlterRestaurant = async (req, res) => {
+  const { id } = req.params;
+  const { name, address, hours, image } = req.body;
+  const { codeStatus, data } = await restaurantService
+    .AlterRestaurant({ id, name, address, hours, image });
+  res.status(mapStatusHTTP(codeStatus)).json(data);
+};
+
 module.exports = {
   getAllRestaurants,
   getRestaurantById,
   registerNewRestaurant,
+  AlterRestaurant,
 };

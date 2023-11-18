@@ -4,6 +4,7 @@ const {
   registerRestaurantQuery,
   restaurantQuery,
   findByNameAndAddressQuery,
+  updateRestaurantQuery,
 } = require('./queries');
 
 const findAll = async () => {
@@ -26,9 +27,15 @@ const register = async (body) => {
   await pool.query(registerRestaurantQuery, [name, address, hours, image]);
 };
 
+const update = async (body) => {
+  const { id, name, address, hours, image } = body;
+  await pool.query(updateRestaurantQuery, [name, address, hours, image, id]);
+};
+
 module.exports = {
   findAll,
   findOne,
   findByNameAndAddress,
   register,
+  update,
 };
